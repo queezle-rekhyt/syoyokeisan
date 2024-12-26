@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+ <meta charset="utf-8">
+ <title>賞与計算シミュレーション</title>
+ <meta name="description" content="ディスクリプションを入力">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="style.css">
+ <!-- [if lt IE 9] -->
+ <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+ <!-- [endif] -->
+ <script src="main.js"></script>
+ <style>
+  .hidden {
+  display: none;
+
+  table { 
+    width: 85%;
+  table-layout: fixed;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow-x:none;
+} 
+  
+}
+ </style>
+ <script>
+ var flg=1
+ </script>
+ </head>
+ <body>
+ <!----- header----->
+ <header>賞与計算シミュレーション by KWTO作</header>
+ <!----- /header ----->
+ 
+ <!----- main ----->
+ <article>
+  <h1>基礎情報</h1>
+  <nav>基本的に基準日(6/1時点または12/1時点)の情報を入れてください</nav>
+  <section>
+     <table border="1">
+        <tr>
+          <th colspan="2">基礎情報</th>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">区分</td>
+          <td><select id="kubun" style="width: 100%;height:100%">
+            <option value="0.1">曹士営内</option>
+            <option value="0.2">曹士営外</option>
+            <option value="0.3">准尉以上</option>
+            <option value="1">特定管理職員</option>
+            <option value="2">指定職職員</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">予想される勤勉成績率</td>
+          <td><select id="seiseki" style="width: 100%;height:100%">
+            <option value="1">S　特優</option>
+            <option value="2">A　優秀</option>
+            <option value="3"selected>B　標準</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">俸給の金額</td>
+          <td><input type="text" id="hokyu" value="0" style="width: 100%;height:100%"></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">地域手当の支給率</td>
+          <td><select id="tiiki" name="tiiki" style="width: 100%;height:100%">
+            <option value="0">0％</option>
+            <option value="0.024">2.4％</option>
+            <option value="0.03">3％</option>
+            <option value="0.048">4.8％</option>
+            <option value="0.06">6％</option>
+            <option value="0.08">8％</option>
+            <option value="0.096">9.6％</option>
+            <option value="0.1">10％</option>
+            <option value="0.12">12％</option>
+            <option value="0.128">12.8％</option>
+            <option value="0.15">15％</option>
+            <option value="0.16">16％</option>
+            <option value="0.2">20％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">広域異動手当の支給率</td>
+          <td><select id="kouiki" name="kouiki" style="width: 100%;height:100%">
+            <option value="0">0％</option>
+            <option value="0.05">5％</option>
+            <option value="0.1">10％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">扶養手当の金額</td>
+          <td><input id=huyo type="text" name="huyo" value="0" style="width: 100%;height:100%"></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">営外手当の金額</td>
+          <td><select id="eigai" style="width: 100%;height:100%">
+            <option value="0">0</option>
+            <option value="6680">6680</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">職務段階別加算の支給率</td>
+          <td><select id="syokumu" style="width: 100%;height:100%">
+            <option value="0">0％</option>
+            <option value="0.05">5％</option>
+            <option value="0.09">9％</option>
+            <option value="0.14">14％</option>
+            <option value="0.18">18％</option>
+            <option value="0.2">20％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">管理職加算の支給率</td>
+          <td><select id="kanri" style="width: 100%;height:100%">
+            <option value="0">0％</option>
+            <option value="0.05">5％</option>
+            <option value="0.11">11％</option>
+            <option value="0.21">21％</option>
+            <option value="0.25">25％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">期末手当の在職期間別割合</td>
+          <td><select id="zaikin" style="width: 100%;height:100%">
+            <option value="1">100％</option>
+            <option value="0.6">60％</option>
+            <option value="0.3">30％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">勤勉手当の期間率</td>
+          <td><select id="kikan" style="width: 100%;height:100%">
+            <option value="1">100％</option>
+            <option value="0.95">95％</option>
+            <option value="0.9">90％</option>
+            <option value="0.8">80％</option>
+            <option value="0.7">70％</option>
+            <option value="0.6">60％</option>
+            <option value="0.5">50％</option>
+            <option value="0.4">40％</option>
+            <option value="0.3">30％</option>
+            <option value="0.2">20％</option>
+            <option value="0.1">10％</option>
+            <option value="0">0％</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">40歳以上ですか？</td>
+          <td><select id="nenrei" style="width: 100%;height:100%">
+            <option value="0">はい</option>
+            <option value="1" selected>いいえ</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">前月(5月または11月)の通勤手当除いた給与支給計</td>
+          <td><input type="text" id="zen_kyuyo"  value="0" style="width: 100%;height:100%"></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">前月(5月または11月)の社会保険料(短期＋介護＋退年＋厚年)の合計</td>
+          <td><input type="text" id="zen_syaho" value="0" style="width: 100%;height:100%"></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">扶養内の年収103万円以下の配偶者＋子供(16歳未満を除く)＋親の合計人数</td>
+          <td><select id="huyo103" style="width: 100%;height:100%">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            </select></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" colspan="2">共済組合の賞与の定期積立金額</td>
+          <td><input type="text" id="kyosai" value="0" style="width: 100%;height:100%"></td>
+        </tr>
+        <tr>
+          <td colspan="3" height="50px">
+            <button id="keisan-button" onclick="keisan()" style="width: 100%;height:100%">賞与計算開始</buttun>
+          </td>
+        </tr>
+        </table>
+  </section>
+  </article>
+  <label id="tedori"></label>
+
+ <article>
+ <h1>総支給額計算</h1>
+ <section>
+    <table id="kimatu_table" border="1" onclick="kirikae()">
+        <tr><th colspan="5">期末手当</th></tr>
+        <tr>
+          <th></th>
+          <th class="hidden" colspan="2">内訳計算方法</th>
+          <th>種別</th>
+          <th>計算結果</th>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2">そのまま</td>
+          <td style="text-align:right">①俸給</td>
+          <td id="hokyu_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="hokyu_tiiki_katei" style="text-align:right;" class="hidden" colspan="2"></td>
+          <td style="text-align:right">①の地域手当</td>
+          <td id="hokyu_tiiki_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="hokyu_kouiki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">①の広域異動手当</td>
+          <td <td id="hokyu_kouiki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="huyo_katei" style="text-align:right" class="hidden" colspan="2">そのまま</td>
+          <td style="text-align:right">②扶養手当</td>
+          <td <td id="huyo_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="huyo_tiiki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">②の地域手当</td>
+          <td <td id="huyo_tiiki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="huyo_kouiki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">②の広域異動手当</td>
+          <td <td id="huyo_kouiki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="eigai_katei" style="text-align:right" class="hidden" colspan="2">そのまま</td>
+          <td style="text-align:right">③営外手当</td>
+          <td <td id="eigai_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="eigai_tiiki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">➂の地域手当</td>
+          <td <td id="eigai_tiiki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="eigai_kouiki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">➂の広域異動手当</td>
+          <td <td id="eigai_kouiki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="syokumu_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">職務段階別加算額</td>
+          <td <td id="syokumu_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kanri_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">管理職加算額</td>
+          <td <td id="kanri_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kimatu_sum_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">上記項目の合計額(円未満切り捨て)</td>
+          <td <td id="kimatu_sum_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td id="kimatu_katei" style="text-align:right" colspan="3">　　</td>
+        </tr>
+        <tr>
+          <td id="kimatu_label" style="text-align:right" colspan="2">期末手当の計算結果</td>
+          <td id="kimatu_kekka" style="text-align:right">　　</td>
+        </tr>
+
+
+      </table>
+
+<br>
+<table id="kinben_table" border="1" onclick="kirikae()">
+  <tr><th colspan="5">勤勉手当</th></tr>
+  <tr>
+    <th></th>
+    <th class="hidden" colspan="2">内訳計算方法</th>
+    <th>種別</th>
+    <th>計算結果</th>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="hokyu2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">①俸給</td>
+    <td id="hokyu_kekka2" style="text-align:right"></td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="hokyu_tiiki_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">①の地域手当</td>
+    <td id="hokyu_tiiki_kekka2" style="text-align:right"></td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="hokyu_kouiki_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">①の広域異動手当</td>
+    <td <td id="hokyu_kouiki_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="eigai_katei2" style="text-align:right" class="hidden" colspan="2">そのまま</td>
+    <td style="text-align:right">➂営外手当</td>
+    <td <td id="eigai_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="eigai_tiiki_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">➂の地域手当</td>
+    <td <td id="eigai_tiiki_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="eigai_kouiki_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">➂の広域異動手当</td>
+    <td <td id="eigai_kouiki_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="syokumu_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">職務段階別加算額</td>
+    <td <td id="syokumu_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="kanri_katei2" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">管理職加算額</td>
+    <td <td id="kanri_kekka2" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td>　　</td>
+    <td id="kinben_sum_katei" style="text-align:right" class="hidden" colspan="2"></td>
+    <td style="text-align:right">上記項目の合計額(円未満切り捨て)</td>
+    <td <td id="kinben_sum_kekka" style="text-align:right">　　</td>
+  </tr>
+  <tr>
+    <td id="kinben_katei" style="text-align:right" colspan="3">　　</td>
+  </tr>
+  <tr>
+    <td id="kinben_label" style="text-align:right" colspan="2">勤勉手当の計算結果</td>
+    <td id="kinben_kekka" style="text-align:right">　　</td>
+  </tr>
+
+
+</table>
+<br>
+
+
+      <table id="sikyu_table" border="1" onclick="kirikae()">
+        <tr><th colspan="5">期末手当と勤勉手当の合計</th></tr>
+        <tr>
+          <th>出典</th>
+          <th class="hidden">内訳計算方法</th>
+          <th>種別</th>
+          <th>計算結果</th>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="sikyu_katei" style="text-align:right" class="hidden">期末手当＋勤勉手当</td>
+          <td style="text-align:right">支給合計</td>
+          <td <td id="sikyu_kekka" style="text-align:right"></td>
+        </tr>
+
+
+      </table>
+ </section>
+ </article>
+ <!----- /main ----->
+ 
+ <article>
+    <h1>控除額計算</h1>
+    <section>
+      <table id="kimatu_table" border="1" onclick="kirikae()">
+        <tr><th id="kozyo_top"colspan="4">控除額</th></tr>
+        <tr>
+          <th></th>
+          <th class="hidden" colspan="2">内訳計算方法</th>
+          <th>種別</th>
+          <th>計算結果</th>
+        </tr>
+        <tr>
+          <td id="syaho_label" style="text-align:center" colspan="3">社会保険料</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kimatu_kozyo_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2">そのまま</td>
+          <td style="text-align:right">期末手当</td>
+          <td id="kimatu_kozyo_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kinben_kozyo_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2">そのまま</td>
+          <td style="text-align:right">勤勉手当</td>
+          <td id="kinben_kozyo_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="iryohi_kimatu_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2"></td>
+          <td style="text-align:right">医療費相当額(期末)</td>
+          <td id="iryohi_kimatu_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="iryohi_kinben_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2"></td>
+          <td style="text-align:right">医療費相当額(勤勉)</td>
+          <td id="iryohi_kinben_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="syokuzi_kimatu_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2"></td>
+          <td style="text-align:right">食事代(期末)</td>
+          <td id="syokuzi_kimatu_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="syokuzi_kinben_katei" style="text-align:right" class="hidden" style="width: 100%;height:100%" colspan="2"></td>
+          <td style="text-align:right">食事代(勤勉)</td>
+          <td id="syokuzi_kinben_kekka" style="text-align:right"></td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="hyozyun_syoyo_sum_katei" style="text-align:right" class="hidden" colspan="2">千円未満切り捨て</td>
+          <td style="text-align:right">上記の合計額</td>
+          <td id="hyozyun_syoyo_sum_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="tanki_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">短期</td>
+          <td id="tanki_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kousei_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">厚生</td>
+          <td id="kousei_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="tainen_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">退年</td>
+          <td id="tainen_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="kaigo_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">介護</td>
+          <td id="kaigo_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="syaho_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">社会保険料合計</td>
+          <td id="syaho_kozyo" style="text-align:right">　　</td>
+        </tr>
+
+        <tr>
+          <td id="syotoku_zei_label" style="text-align:center" colspan="3">所得税</td>
+        </tr>
+
+        <tr>
+          <td>　　</td>
+          <td id="zen_kyuyo_katei" style="text-align:right" class="hidden" colspan="2">そのまま</td>
+          <td style="text-align:right">前月の給与</td>
+          <td id="zen_kyuyo_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="zen_syaho_katei" style="text-align:right" class="hidden" colspan="2">そのまま</td>
+          <td style="text-align:right">前月の社会保険料</td>
+          <td id="zen_syaho_kekka" style="text-align:right">　　</td>
+        </tr>
+
+        <tr>
+          <td>　　</td>
+          <td id="kyuyo_syaho_sagaku_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">上記項目の差額</td>
+          <td id="kyuyo_syaho_sagaku_kekka" style="text-align:right">　　</td>
+
+        </tr>
+
+        <tr>
+          <td>　　</td>
+          <td style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">扶養内の合計人数</td>
+          <td id="huyo_keinin" style="text-align:right">　　</td>
+
+        </tr>
+
+        <tr>
+          <td>　　</td>
+          <td style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">上記2項目から算出した所得税率</td>
+          <td id="syotoku_zei" style="text-align:right">　　</td>
+
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="syotoku_zei_keika" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">所得税</td>
+          <td id="syotoku_zei_kekka" style="text-align:right">　　</td>
+        </tr>
+        <tr>
+          <td id="kyosai_label" style="text-align:center" colspan="3">共済の定積</td>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td  style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right">共済の定積</td>
+          <td id="kyosai_kekka" style="text-align:right">　　</td>
+        </tr>
+
+
+        <tr>
+          <td>　　</td>
+          <td  id="kozyo_katei" style="text-align:right" class="hidden" colspan="2"></td>
+          <td style="text-align:right" >控除額合計</td>
+          <td id="kozyo_kekka">　　</td>
+        </tr>
+
+
+      </table>
+
+      <table id="sikyu_table" border="1" onclick="kirikae()">
+        <tr><th colspan="5">手取り金額</th></tr>
+        <tr>
+          <th>出典</th>
+          <th class="hidden">内訳計算方法</th>
+          <th>種別</th>
+          <th>計算結果</th>
+        </tr>
+        <tr>
+          <td>　　</td>
+          <td id="last_katei" style="text-align:right" class="hidden"></td>
+          <td style="text-align:right">手取り金額</td>
+          <td <td id="last_kekka" style="text-align:right"></td>
+        </tr>
+
+
+      </table>
+    </section>
+    </article>
+
+ <!----- footer ----->
+ <footer>フッター</footer>
+ <!----- /footer ----->
+ </body>
+</html>
+
+<script>
+ function keisan() {
+  const kibetu_sikyu_tokutei_kanri=1.025
+  const kibetu_sikyu_siteisyoku=0.65
+  const kibetu_sikyu_ippan=1.225
+
+  const tokutei_s=1.525
+  const tokutei_a=1.355
+  const tokutei_b=1.185
+
+  const sitei_a=1.125
+  const sitei_b=0.99
+
+  const ippan_s=1.265
+  const ippan_a=1.125
+  const ippan_b=0.985
+
+
+
+  document.getElementById("hokyu_kekka").innerHTML = document.getElementById("hokyu").value;
+  document.getElementById("hokyu_kekka").value = document.getElementById("hokyu").value;
+
+  document.getElementById("hokyu_tiiki_katei").innerHTML = "少数切り捨て(①×"+document.getElementById("tiiki").value +")";
+
+  document.getElementById("hokyu_tiiki_kekka").innerHTML = Math.floor(document.getElementById("hokyu").value*document.getElementById("tiiki").value);
+  document.getElementById("hokyu_tiiki_kekka").value = Math.floor(document.getElementById("hokyu").value*document.getElementById("tiiki").value);
+  
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+        document.getElementById("hokyu_kouiki_katei").innerHTML = "少数切り捨て(①×("+document.getElementById("kouiki").value+ "ー"+ document.getElementById("tiiki").value+"))";
+      } else {
+        document.getElementById("hokyu_kouiki_katei").innerHTML=0
+      } 
+
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+    document.getElementById("hokyu_kouiki_kekka").innerHTML = Math.floor(document.getElementById("hokyu").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+    document.getElementById("hokyu_kouiki_kekka").value = Math.floor(document.getElementById("hokyu").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+  } else {
+    document.getElementById("hokyu_kouiki_kekka").innerHTML=0
+    document.getElementById("hokyu_kouiki_kekka").value=0
+  }
+
+  document.getElementById("huyo_kekka").innerHTML = document.getElementById("huyo").value;
+  document.getElementById("huyo_kekka").value = document.getElementById("huyo").value;
+
+  document.getElementById("huyo_tiiki_katei").innerHTML = "少数切り捨て(②×"+document.getElementById("huyo").value +")";
+
+  document.getElementById("huyo_tiiki_kekka").innerHTML = Math.floor(document.getElementById("huyo").value*document.getElementById("tiiki").value);
+  document.getElementById("huyo_tiiki_kekka").value = Math.floor(document.getElementById("huyo").value*document.getElementById("tiiki").value);
+  
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+        document.getElementById("huyo_kouiki_katei").innerHTML = "少数切り捨て(②×("+document.getElementById("kouiki").value+ "ー"+ document.getElementById("tiiki").value+"))";
+      } else {
+        document.getElementById("huyo_kouiki_katei").innerHTML=0
+      } 
+
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+    document.getElementById("huyo_kouiki_kekka").innerHTML = Math.floor(document.getElementById("huyo").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+    document.getElementById("huyo_kouiki_kekka").value = Math.floor(document.getElementById("huyo").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+  } else {
+    document.getElementById("huyo_kouiki_kekka").innerHTML=0
+    document.getElementById("huyo_kouiki_kekka").value=0
+  }
+
+  document.getElementById("eigai_kekka").innerHTML = document.getElementById("eigai").value;
+  document.getElementById("eigai_kekka").value = document.getElementById("eigai").value;
+
+  document.getElementById("eigai_tiiki_katei").innerHTML = "少数切り捨て(➂×"+document.getElementById("tiiki").value +")";
+
+  document.getElementById("eigai_tiiki_kekka").innerHTML = Math.floor(document.getElementById("eigai").value*document.getElementById("tiiki").value);
+  document.getElementById("eigai_tiiki_kekka").value = Math.floor(document.getElementById("eigai").value*document.getElementById("tiiki").value);
+  
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+        document.getElementById("eigai_kouiki_katei").innerHTML = "少数切り捨て(➂×("+document.getElementById("kouiki").value+ "ー"+ document.getElementById("tiiki").value+"))";
+      } else {
+        document.getElementById("eigai_kouiki_katei").innerHTML=0
+      } 
+
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+    document.getElementById("eigai_kouiki_kekka").innerHTML = Math.floor(document.getElementById("eigai").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+    document.getElementById("eigai_kouiki_kekka").value = Math.floor(document.getElementById("eigai").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+  } else {
+    document.getElementById("eigai_kouiki_kekka").innerHTML=0
+    document.getElementById("eigai_kouiki_kekka").value=0
+  }
+
+  document.getElementById("syokumu_katei").innerHTML = "(①＋①の地域手当＋①の広域移動手当＋➂＋➂の地域手当＋➂の広域異動手当)✕"+document.getElementById("syokumu").value;
+  document.getElementById("syokumu_kekka").innerHTML = (Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value))*document.getElementById("syokumu").value;
+  document.getElementById("syokumu_kekka").value = (Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value))*document.getElementById("syokumu").value;
+
+  document.getElementById("kanri_katei").innerHTML="①✕"+document.getElementById("kanri").value;
+  document.getElementById("kanri_kekka").innerHTML=Number(document.getElementById("hokyu_kekka").value)*document.getElementById("kanri").value;
+  document.getElementById("kanri_kekka").value=Number(document.getElementById("hokyu_kekka").value)*document.getElementById("kanri").value;
+
+  document.getElementById("kimatu_sum_katei").innerHTML="少数切り捨て(上の項目の合計額)";
+  document.getElementById("kimatu_sum_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("huyo_kekka").value)+Number(document.getElementById("huyo_tiiki_kekka").value)+Number(document.getElementById("huyo_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value)+Number(document.getElementById("syokumu_kekka").value)+Number(document.getElementById("kanri_kekka").value))
+  document.getElementById("kimatu_sum_kekka").value=Math.floor(Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("huyo_kekka").value)+Number(document.getElementById("huyo_tiiki_kekka").value)+Number(document.getElementById("huyo_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value)+Number(document.getElementById("syokumu_kekka").value)+Number(document.getElementById("kanri_kekka").value))
+
+  if (document.getElementById("kubun").value == 1) {
+    document.getElementById("kimatu_katei").innerHTML="少数切り捨て("+ document.getElementById("kimatu_sum_kekka").value+"✕期別支給割合"+ kibetu_sikyu_tokutei_kanri+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  } else if(document.getElementById("kubun").value == 2){
+    document.getElementById("kimatu_katei").innerHTML="少数切り捨て("+ document.getElementById("kimatu_sum_kekka").value+"✕期別支給割合"+ kibetu_sikyu_siteisyoku+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  }else{
+    document.getElementById("kimatu_katei").innerHTML="少数切り捨て("+ document.getElementById("kimatu_sum_kekka").value+"✕期別支給割合"+ kibetu_sikyu_ippan+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  }
+
+  if (document.getElementById("kubun").value == 1) {
+    document.getElementById("kimatu_kekka").innerHTML=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_tokutei_kanri*document.getElementById("zaikin").value);
+    document.getElementById("kimatu_kekka").value=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_tokutei_kanri*document.getElementById("zaikin").value);
+  } else if(document.getElementById("kubun").value == 2){
+    document.getElementById("kimatu_kekka").innerHTML=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_siteisyoku*document.getElementById("zaikin").value);
+    document.getElementById("kimatu_kekka").value=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_siteisyoku*document.getElementById("zaikin").value);
+  }else{
+    document.getElementById("kimatu_kekka").innerHTML=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_ippan*document.getElementById("zaikin").value);
+    document.getElementById("kimatu_kekka").value=Math.floor(document.getElementById("kimatu_sum_kekka").value*kibetu_sikyu_ippan*document.getElementById("zaikin").value);
+  }
+
+
+
+  document.getElementById("hokyu_kekka2").innerHTML = document.getElementById("hokyu").value;
+  document.getElementById("hokyu_kekka2").value = document.getElementById("hokyu").value;
+
+  document.getElementById("hokyu_tiiki_katei2").innerHTML = "少数切り捨て(①×"+document.getElementById("tiiki").value +")";
+
+  document.getElementById("hokyu_tiiki_kekka2").innerHTML = Math.floor(document.getElementById("hokyu").value*document.getElementById("tiiki").value);
+  document.getElementById("hokyu_tiiki_kekka2").value = Math.floor(document.getElementById("hokyu").value*document.getElementById("tiiki").value);
+  
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+        document.getElementById("hokyu_kouiki_katei2").innerHTML = "少数切り捨て(①×("+document.getElementById("kouiki").value+ "ー"+ document.getElementById("tiiki").value+"))";
+      } else {
+        document.getElementById("hokyu_kouiki_katei2").innerHTML=0
+      } 
+
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+    document.getElementById("hokyu_kouiki_kekka2").innerHTML = Math.floor(document.getElementById("hokyu").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+    document.getElementById("hokyu_kouiki_kekka2").value = Math.floor(document.getElementById("hokyu").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+  } else {
+    document.getElementById("hokyu_kouiki_kekka2").innerHTML=0
+    document.getElementById("hokyu_kouiki_kekka2").value=0
+  }
+
+  document.getElementById("eigai_kekka2").innerHTML = document.getElementById("eigai").value;
+  document.getElementById("eigai_kekka2").value = document.getElementById("eigai").value;
+
+  document.getElementById("eigai_tiiki_katei2").innerHTML = "少数切り捨て(➂×"+document.getElementById("tiiki").value +")";
+
+  document.getElementById("eigai_tiiki_kekka2").innerHTML = Math.floor(document.getElementById("eigai").value*document.getElementById("tiiki").value);
+  document.getElementById("eigai_tiiki_kekka2").value = Math.floor(document.getElementById("eigai").value*document.getElementById("tiiki").value);
+  
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+        document.getElementById("eigai_kouiki_katei2").innerHTML = "少数切り捨て(➂×("+document.getElementById("kouiki").value+ "ー"+ document.getElementById("tiiki").value+"))";
+      } else {
+        document.getElementById("eigai_kouiki_katei2").innerHTML=0
+      } 
+
+  if (document.getElementById("kouiki").value > document.getElementById("tiiki").value) {
+    document.getElementById("eigai_kouiki_kekka2").innerHTML = Math.floor(document.getElementById("eigai").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+    document.getElementById("eigai_kouiki_kekka2").value = Math.floor(document.getElementById("eigai").value*(document.getElementById("kouiki").value-document.getElementById("tiiki").value));
+  } else {
+    document.getElementById("eigai_kouiki_kekka2").innerHTML=0
+    document.getElementById("eigai_kouiki_kekka2").value=0
+  }
+
+  document.getElementById("syokumu_katei2").innerHTML = "(①＋①の地域手当＋①の広域移動手当＋➂営外手当＋➂の地域手当＋➂の広域異動手当)✕"+document.getElementById("syokumu").value;
+  document.getElementById("syokumu_kekka2").innerHTML = (Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value))*document.getElementById("syokumu").value;
+  document.getElementById("syokumu_kekka2").value = (Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value))*document.getElementById("syokumu").value;
+
+  document.getElementById("kanri_katei2").innerHTML="①✕"+document.getElementById("kanri").value;
+  document.getElementById("kanri_kekka2").innerHTML=Number(document.getElementById("hokyu_kekka").value)*document.getElementById("kanri").value;
+  document.getElementById("kanri_kekka2").value=Number(document.getElementById("hokyu_kekka").value)*document.getElementById("kanri").value;
+
+  document.getElementById("kinben_sum_katei").innerHTML="少数切り捨て(上の項目の合計額)";
+  document.getElementById("kinben_sum_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value)+Number(document.getElementById("syokumu_kekka").value)+Number(document.getElementById("kanri_kekka").value))
+  document.getElementById("kinben_sum_kekka").value=Math.floor(Number(document.getElementById("hokyu_kekka").value)+Number(document.getElementById("hokyu_tiiki_kekka").value)+Number(document.getElementById("hokyu_kouiki_kekka").value)+Number(document.getElementById("eigai_kekka").value)+Number(document.getElementById("eigai_tiiki_kekka").value)+Number(document.getElementById("eigai_kouiki_kekka").value)+Number(document.getElementById("syokumu_kekka").value)+Number(document.getElementById("kanri_kekka").value))
+
+  if (document.getElementById("kubun").value == 1) {
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ tokutei_s+"✕期間率"+document.getElementById("kikan").value+")";
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ tokutei_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ tokutei_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  } else if(document.getElementById("kubun").value == 2){
+    if (document.getElementById("seiseki").value == 2) {
+      document.getElementById("kinben_katei").innerHTML=0
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ sitei_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ sitei_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  }else{
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ ippan_s+"✕期間率"+document.getElementById("kikan").value+")";
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ ippan_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("kinben_katei").innerHTML="少数切り捨て("+ document.getElementById("kinben_sum_kekka").value+"✕成績率"+ ippan_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  }
+
+  if (document.getElementById("kubun").value == 1) {
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_s*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_s*document.getElementById("kikan").value);
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_a*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_a*document.getElementById("kikan").value);
+      }else{
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_b*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*tokutei_b*document.getElementById("kikan").value);
+      }
+  } else if(document.getElementById("kubun").value == 2){
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("kinben_kekka").innerHTML=0
+        document.getElementById("kinben_kekka").valueL=0
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*sitei_a*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*sitei_a*document.getElementById("kikan").value);
+      }else{
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*sitei_b*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*sitei_b*document.getElementById("kikan").value);
+      }
+  }else{
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_s*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_s*document.getElementById("kikan").value);
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_a*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_a*document.getElementById("kikan").value);
+      }else{
+        document.getElementById("kinben_kekka").innerHTML=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_b*document.getElementById("kikan").value);
+        document.getElementById("kinben_kekka").value=Math.floor(document.getElementById("kinben_sum_kekka").value*ippan_b*document.getElementById("kikan").value);
+      }
+  }
+
+  document.getElementById("sikyu_kekka").innerHTML=document.getElementById("kimatu_kekka").value+document.getElementById("kinben_kekka").value
+  document.getElementById("sikyu_kekka").value=document.getElementById("kimatu_kekka").value+document.getElementById("kinben_kekka").value
+
+
+  //控除の期末手当
+  document.getElementById("kimatu_kozyo_kekka").innerHTML=document.getElementById("kimatu_kekka").value
+  document.getElementById("kimatu_kozyo_kekka").value=document.getElementById("kimatu_kekka").value
+  document.getElementById("kinben_kozyo_kekka").innerHTML=document.getElementById("kinben_kekka").value
+  document.getElementById("kinben_kozyo_kekka").value=document.getElementById("kinben_kekka").value
+
+  if (document.getElementById("kubun").value == 1) {
+    document.getElementById("iryohi_kimatu_katei").innerHTML="少数切り捨て(俸給"+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_tokutei_kanri+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+    document.getElementById("iryohi_kimatu_katei").value="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_tokutei_kanri+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  } else if(document.getElementById("kubun").value == 2){
+    document.getElementById("iryohi_kimatu_katei").innerHTML="少数切り捨て(俸給"+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_siteisyoku+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+    document.getElementById("iryohi_kimatu_katei").value="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_siteisyoku+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  }else if(document.getElementById("kubun").value == 0.3){
+    document.getElementById("iryohi_kimatu_katei").innerHTML="少数切り捨て(俸給"+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_ippan+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+    document.getElementById("iryohi_kimatu_katei").value="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_ippan+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  }else{
+    document.getElementById("iryohi_kimatu_katei").innerHTML="少数切り捨て((俸給"+document.getElementById("hokyu").value+"＋6680)✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_ippan+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+    document.getElementById("iryohi_kimatu_katei").value="少数切り捨て(("+document.getElementById("hokyu").value+"＋6680)✕15/1000✕12/16.5✕期別支給割合"+ kibetu_sikyu_ippan+"✕在職期間別割合"+document.getElementById("zaikin").value+")";
+  }
+
+  if (document.getElementById("kubun").value == 1) {
+    document.getElementById("iryohi_kimatu_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_tokutei_kanri*Number(document.getElementById("zaikin").value));
+    document.getElementById("iryohi_kimatu_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_tokutei_kanri*Number(document.getElementById("zaikin").value));
+  } else if(document.getElementById("kubun").value == 2){
+    document.getElementById("iryohi_kimatu_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_siteisyoku*Number(document.getElementById("zaikin").value));
+    document.getElementById("iryohi_kimatu_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_siteisyoku*Number(document.getElementById("zaikin").value));
+  }else if(document.getElementById("kubun").value == 0.3){
+    document.getElementById("iryohi_kimatu_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value));
+    document.getElementById("iryohi_kimatu_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value));
+  }else{
+    document.getElementById("iryohi_kimatu_kekka").innerHTML=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value));
+    document.getElementById("iryohi_kimatu_kekka").value=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value));
+  }
+
+  //勤勉手当の医療費
+  if (document.getElementById("kubun").value == 1) {
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ tokutei_s+"✕期間率"+document.getElementById("kikan").value+")";
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ tokutei_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ tokutei_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  } else if(document.getElementById("kubun").value == 2){
+    if (document.getElementById("seiseki").value == 2) {
+      document.getElementById("iryohi_kinben_katei").innerHTML=0
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ sitei_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ sitei_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  }else if(document.getElementById("kubun").value == 0.3){
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ ippan_s+"✕期間率"+document.getElementById("kikan").value+")";
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ ippan_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て("+document.getElementById("hokyu").value+"✕15/1000✕12/16.5✕成績率"+ ippan_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  }else{
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て(("+document.getElementById("hokyu").value+"＋6680)✕15/1000✕12/16.5✕成績率"+ ippan_s+"✕期間率"+document.getElementById("kikan").value+")";
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て(("+document.getElementById("hokyu").value+"＋6680)✕15/1000✕12/16.5✕成績率"+ ippan_a+"✕期間率"+document.getElementById("kikan").value+")";
+      }else{
+        document.getElementById("iryohi_kinben_katei").innerHTML="少数切り捨て(("+document.getElementById("hokyu").value+"＋6680)✕15/1000✕12/16.5✕成績率"+ ippan_b+"✕期間率"+document.getElementById("kikan").value+")";
+      }
+  }
+
+  if (document.getElementById("kubun").value == 1) {
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_s*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_s*Number(document.getElementById("kikan").value));
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_a*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_a*Number(document.getElementById("kikan").value));
+      }else{
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_b*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*tokutei_b*Number(document.getElementById("kikan").value));
+      }
+  } else if(document.getElementById("kubun").value == 2){
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("iryohi_kinben_kekka").innerHTML=0
+        document.getElementById("iryohi_kinben_kekka").valueL=0
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*sitei_a*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*sitei_a*Number(document.getElementById("kikan").value));
+      }else{
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*sitei_b*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*sitei_b*Number(document.getElementById("kikan").value));
+      }
+  }else if(document.getElementById("kubun").value == 0.3){
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_s*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_s*Number(document.getElementById("kikan").value));
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_a*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_a*Number(document.getElementById("kikan").value));
+      }else{
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_b*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor(Number(document.getElementById("hokyu").value)*15/1000*12/16.5*ippan_b*Number(document.getElementById("kikan").value));
+      }
+  }else{
+    if (document.getElementById("seiseki").value == 1) {
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_s*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_s*Number(document.getElementById("kikan").value));
+      } else if(document.getElementById("seiseki").value == 2){
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_a*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_a*Number(document.getElementById("kikan").value));
+      }else{
+        document.getElementById("iryohi_kinben_kekka").innerHTML=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_b*Number(document.getElementById("kikan").value));
+        document.getElementById("iryohi_kinben_kekka").value=Math.floor((Number(document.getElementById("hokyu").value)+6680)*15/1000*12/16.5*ippan_b*Number(document.getElementById("kikan").value));
+      }
+  }
+
+  if (document.getElementById("kubun").value == 0.1) {
+    document.getElementById("syokuzi_kimatu_katei").innerHTML="少数切り捨て(6680✕"+ kibetu_sikyu_ippan +"✕"+Number(document.getElementById("zaikin").value)+")"
+    document.getElementById("syokuzi_kimatu_katei").value="少数切り捨て(6680✕"+ kibetu_sikyu_ippan +"✕"+Number(document.getElementById("zaikin").value)+")"
+    document.getElementById("syokuzi_kimatu_kekka").innerHTML=Math.floor(6680*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value))
+    document.getElementById("syokuzi_kimatu_kekka").value=Math.floor(6680*kibetu_sikyu_ippan*Number(document.getElementById("zaikin").value))
+  } else {
+    document.getElementById("syokuzi_kimatu_katei").innerHTML=0
+    document.getElementById("syokuzi_kimatu_katei").value=0
+    document.getElementById("syokuzi_kimatu_kekka").innerHTML=0
+    document.getElementById("syokuzi_kimatu_kekka").value=0
+  }
+
+  if (document.getElementById("kubun").value == 0.1) {
+    if (document.getElementById("seiseki").value == 1) {
+      document.getElementById("syokuzi_kinben_katei").innerHTML="少数切り捨て(6680✕"+ ippan_s +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_katei").value="少数切り捨て(6680✕"+ ippan_s +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_kekka").innerHTML=Math.floor(6680*ippan_s*Number(document.getElementById("kikan").value))
+      document.getElementById("syokuzi_kinben_kekka").value=Math.floor(6680*ippan_s*Number(document.getElementById("kikan").value))
+    } else if(document.getElementById("seiseki").value == 2){
+      document.getElementById("syokuzi_kinben_katei").innerHTML="少数切り捨て(6680✕"+ ippan_a +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_katei").value="少数切り捨て(6680✕"+ ippan_a +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_kekka").innerHTML=Math.floor(6680*ippan_a*Number(document.getElementById("kikan").value))
+      document.getElementById("syokuzi_kinben_kekka").value=Math.floor(6680*ippan_a*Number(document.getElementById("kikan").value))
+    }else{
+      document.getElementById("syokuzi_kinben_katei").innerHTML="少数切り捨て(6680✕"+ ippan_b +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_katei").value="少数切り捨て(6680✕"+ ippan_b +"✕"+Number(document.getElementById("kikan").value)+")"
+      document.getElementById("syokuzi_kinben_kekka").innerHTML=Math.floor(6680*ippan_b*Number(document.getElementById("kikan").value))
+      document.getElementById("syokuzi_kinben_kekka").value=Math.floor(6680*ippan_b*Number(document.getElementById("kikan").value))
+    }
+
+  } else {
+    document.getElementById("syokuzi_kinben_katei").innerHTML=0
+    document.getElementById("syokuzi_kinben_katei").value=0
+    document.getElementById("syokuzi_kinben_kekka").innerHTML=0
+    document.getElementById("syokuzi_kinben_kekka").value=0
+  }
+
+  document.getElementById("hyozyun_syoyo_sum_kekka").innerHTML=Math.floor((document.getElementById("kimatu_kozyo_kekka").value+document.getElementById("kinben_kozyo_kekka").value+document.getElementById("iryohi_kimatu_kekka").value+document.getElementById("iryohi_kinben_kekka").value+document.getElementById("syokuzi_kimatu_kekka").value+document.getElementById("syokuzi_kinben_kekka").value)/1000)*1000
+  document.getElementById("hyozyun_syoyo_sum_kekka").value=Math.floor((document.getElementById("kimatu_kozyo_kekka").value+document.getElementById("kinben_kozyo_kekka").value+document.getElementById("iryohi_kimatu_kekka").value+document.getElementById("iryohi_kinben_kekka").value+document.getElementById("syokuzi_kimatu_kekka").value+document.getElementById("syokuzi_kinben_kekka").value)/1000)*1000
+
+  document.getElementById("tanki_katei").innerHTML="円未満切り捨て("+document.getElementById("hyozyun_syoyo_sum_kekka").value+"✕29.04/1000)"
+  document.getElementById("tanki_kekka").innerHTML=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*29.04/1000)
+  document.getElementById("tanki_kekka").value=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*29.04/1000)
+
+  document.getElementById("kousei_katei").innerHTML="円未満切り捨て("+document.getElementById("hyozyun_syoyo_sum_kekka").value+"✕91.5/1000)"
+  document.getElementById("kousei_kekka").innerHTML=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*91.5/1000)
+  document.getElementById("kousei_kekka").value=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*91.5/1000)
+
+  document.getElementById("tainen_katei").innerHTML="円未満切り捨て("+document.getElementById("hyozyun_syoyo_sum_kekka").value+"✕7.5/1000)"
+  document.getElementById("tainen_kekka").innerHTML=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*7.5/1000)
+  document.getElementById("tainen_kekka").value=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*7.5/1000)
+
+  if(document.getElementById("nenrei").value==0){
+    document.getElementById("kaigo_katei").innerHTML="円未満切り捨て("+document.getElementById("hyozyun_syoyo_sum_kekka").value+"✕10.62/1000)"
+    document.getElementById("kaigo_kekka").innerHTML=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*10.62/1000)
+    document.getElementById("kaigo_kekka").value=Math.floor(document.getElementById("hyozyun_syoyo_sum_kekka").value*10.62/1000)
+  }else{
+    document.getElementById("kaigo_kekka").innerHTML=0
+    document.getElementById("kaigo_kekka").value=0
+  }
+
+  syaho_katei
+  document.getElementById("syaho_katei").innerHTML="短期"+document.getElementById("tanki_kekka").value+"＋厚生"+document.getElementById("kousei_kekka").value+"＋退年"+document.getElementById("tainen_kekka").value +"＋介護"+document.getElementById("kaigo_kekka").value
+
+  document.getElementById("syaho_kozyo").innerHTML=document.getElementById("tanki_kekka").value+document.getElementById("kousei_kekka").value+document.getElementById("tainen_kekka").value +document.getElementById("kaigo_kekka").value
+  document.getElementById("syaho_kozyo").value=document.getElementById("tanki_kekka").value+document.getElementById("kousei_kekka").value+document.getElementById("tainen_kekka").value +document.getElementById("kaigo_kekka").value
+
+  document.getElementById("zen_kyuyo_kekka").innerHTML=document.getElementById("zen_kyuyo").value
+  document.getElementById("zen_syaho_kekka").innerHTML=document.getElementById("zen_syaho").value
+  document.getElementById("zen_kyuyo_kekka").value=document.getElementById("zen_kyuyo").value
+  document.getElementById("zen_syaho_kekka").value=document.getElementById("zen_syaho").value
+
+
+  document.getElementById("kyuyo_syaho_sagaku_kekka").innerHTML=document.getElementById("zen_kyuyo_kekka").value-document.getElementById("zen_syaho_kekka").value
+  document.getElementById("kyuyo_syaho_sagaku_kekka").value=document.getElementById("zen_kyuyo_kekka").value-document.getElementById("zen_syaho_kekka").value
+
+  document.getElementById("huyo_keinin").innerHTML=document.getElementById("huyo103").value+"人"
+  document.getElementById("huyo_keinin").value=document.getElementById("huyo103").value
+
+  if(document.getElementById("huyo103").value==0){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<68000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<79000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<252000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<300000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<334000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<363000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<395000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<426000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<520000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<601000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<678000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<708000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<745000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<788000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<846000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<914000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1312000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1521000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2621000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;      
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3495000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }else if(document.getElementById("huyo103").value==1){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<94000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<243000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<282000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<338000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<365000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<394000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<422000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<455000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<520000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<617000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<699000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<733000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<771000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<814000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<874000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<944000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1336000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1526000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2645000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3527000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }else if(document.getElementById("huyo103").value==2){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<133000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<269000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<312000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<369000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<393000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<420000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<450000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<484000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<520000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<632000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<721000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<757000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<797000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<841000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<902000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<975000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1360000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1526000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2669000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3559000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }else if(document.getElementById("huyo103").value==3){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<171000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<295000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<345000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<398000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<417000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<445000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<477000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<510000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<544000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<647000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<745000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<782000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<823000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<868000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<931000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1005000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1385000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1538000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2693000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3590000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }else if(document.getElementById("huyo103").value==4){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<210000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<300000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<378000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<424000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<444000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<470000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<503000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<534000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<570000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<662000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<768000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<806000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<849000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<896000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<959000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1036000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1409000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1555000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2716000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3622000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }else if(document.getElementById("huyo103").value==5){
+    if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<240000){
+      document.getElementById("syotoku_zei").innerHTML=0;
+      document.getElementById("syotoku_zei").value=0;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<300000){
+      document.getElementById("syotoku_zei").innerHTML=0.02042;
+      document.getElementById("syotoku_zei").value=0.02042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<406000){
+      document.getElementById("syotoku_zei").innerHTML=0.04084;
+      document.getElementById("syotoku_zei").value=0.04084;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<450000){
+      document.getElementById("syotoku_zei").innerHTML=0.06126;
+      document.getElementById("syotoku_zei").value=0.06126;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<472000){
+      document.getElementById("syotoku_zei").innerHTML=0.08168;
+      document.getElementById("syotoku_zei").value=0.08168;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<496000){
+      document.getElementById("syotoku_zei").innerHTML=0.1021;
+      document.getElementById("syotoku_zei").value=0.1021;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<525000){
+      document.getElementById("syotoku_zei").innerHTML=0.12252;
+      document.getElementById("syotoku_zei").value=0.12252;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<557000){
+      document.getElementById("syotoku_zei").innerHTML=0.14294;
+      document.getElementById("syotoku_zei").value=0.14294;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<597000){
+      document.getElementById("syotoku_zei").innerHTML=0.16336;
+      document.getElementById("syotoku_zei").value=0.16336;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<677000){
+      document.getElementById("syotoku_zei").innerHTML=0.18378;
+      document.getElementById("syotoku_zei").value=0.18378;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<792000){
+      document.getElementById("syotoku_zei").innerHTML=0.2042;
+      document.getElementById("syotoku_zei").value=0.2042;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<831000){
+      document.getElementById("syotoku_zei").innerHTML=0.22462;
+      document.getElementById("syotoku_zei").value=0.22462;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<875000){
+      document.getElementById("syotoku_zei").innerHTML=0.24504;
+      document.getElementById("syotoku_zei").value=0.24504;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<923000){
+      document.getElementById("syotoku_zei").innerHTML=0.26546;
+      document.getElementById("syotoku_zei").value=0.26546;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<987000){
+      document.getElementById("syotoku_zei").innerHTML=0.28588;
+      document.getElementById("syotoku_zei").value=0.28588;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1066000){
+      document.getElementById("syotoku_zei").innerHTML=0.3063;
+      document.getElementById("syotoku_zei").value=0.3063;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1434000){
+      document.getElementById("syotoku_zei").innerHTML=0.32672;
+      document.getElementById("syotoku_zei").value=0.32672;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<1555000){
+      document.getElementById("syotoku_zei").innerHTML=0.35735;
+      document.getElementById("syotoku_zei").value=0.35735;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<2740000){
+      document.getElementById("syotoku_zei").innerHTML=0.38798;
+      document.getElementById("syotoku_zei").value=0.38798;
+    }else if(document.getElementById("kyuyo_syaho_sagaku_kekka").value<3654000){
+      document.getElementById("syotoku_zei").innerHTML=0.41861;
+      document.getElementById("syotoku_zei").value=0.41861;
+    }else{
+      document.getElementById("syotoku_zei").innerHTML=0.45945;
+      document.getElementById("syotoku_zei").value=0.45945;
+    }
+  }
+  document.getElementById("syotoku_zei_keika").innerHTML="少数切り捨て((期末手当"+document.getElementById("kimatu_kekka").value+"＋勤勉手当"+ document.getElementById("kinben_kekka").value +"ー社会保険料"+document.getElementById("syaho_kozyo").value+")✕所得税率"+document.getElementById("syotoku_zei").value+")"
+  document.getElementById("syotoku_zei_kekka").innerHTML=Math.floor((document.getElementById("kimatu_kekka").value+document.getElementById("kinben_kekka").value-document.getElementById("syaho_kozyo").value)*document.getElementById("syotoku_zei").value)
+  document.getElementById("syotoku_zei_kekka").value=Math.floor((document.getElementById("kimatu_kekka").value+document.getElementById("kinben_kekka").value-document.getElementById("syaho_kozyo").value)*document.getElementById("syotoku_zei").value)
+  
+  document.getElementById("kyosai_kekka").innerHTML=document.getElementById("kyosai").value
+
+  document.getElementById("kozyo_katei").innerHTML="社会保険料" + document.getElementById("syaho_kozyo").value + "＋所得税" + document.getElementById("syotoku_zei_kekka").value + "＋共済の定積" + document.getElementById("kyosai").value
+  document.getElementById("kozyo_kekka").innerHTML=Number(document.getElementById("syaho_kozyo").value)+Number(document.getElementById("syotoku_zei_kekka").value)+Number(document.getElementById("kyosai").value)
+  document.getElementById("kozyo_kekka").value=Number(document.getElementById("syaho_kozyo").value)+Number(document.getElementById("syotoku_zei_kekka").value)+Number(document.getElementById("kyosai").value)
+
+  document.getElementById("last_katei").innerHTML="賞与"+Number(document.getElementById("sikyu_kekka").value)+"ー控除額"+Number(document.getElementById("kozyo_kekka").value)
+  document.getElementById("last_kekka").innerHTML=Number(document.getElementById("sikyu_kekka").value)-Number(document.getElementById("kozyo_kekka").value)
+  document.getElementById("last_kekka").value=Number(document.getElementById("sikyu_kekka").value)-Number(document.getElementById("kozyo_kekka").value)
+
+  document.getElementById("tedori").innerHTML = "あなたの手取り金額は、"+document.getElementById("last_kekka").value+"円です"
+  
+  
+}
+
+    function kirikae(){
+    var className1 = document.getElementsByClassName("hidden");
+    if(flg==1){
+      for (var i = 0; i < className1.length; i++) {
+      // displayプロパティを切り替える
+          className1[i].style.display = 'table-cell';
+          document.getElementById("kimatu_katei").setAttribute('colspan', '5');
+          document.getElementById("kimatu_label").setAttribute('colspan', '4');
+          document.getElementById("kinben_katei").setAttribute('colspan', '5');
+          document.getElementById("kinben_label").setAttribute('colspan', '4');
+          document.getElementById("syaho_label").setAttribute('colspan', '5');
+          document.getElementById("syotoku_zei_label").setAttribute('colspan', '5');
+          document.getElementById("kyosai_label").setAttribute('colspan', '5'); 
+          document.getElementById("kozyo_top").setAttribute('colspan', '5');
+      }
+      flg=2
+    }else{
+      for (var i = 0; i < className1.length; i++) {
+      // displayプロパティを切り替える
+        if (className1[i].style.display == "none") {
+          className1[i].style.display = 'table-cell';
+          document.getElementById("kimatu_katei").setAttribute('colspan', '5');
+          document.getElementById("kimatu_label").setAttribute('colspan', '4');
+          document.getElementById("kinben_katei").setAttribute('colspan', '5');
+          document.getElementById("kinben_label").setAttribute('colspan', '4');
+          document.getElementById("syaho_label").setAttribute('colspan', '5');
+          document.getElementById("syotoku_zei_label").setAttribute('colspan', '5');
+          document.getElementById("kyosai_label").setAttribute('colspan', '5'); 
+          document.getElementById("kozyo_top").setAttribute('colspan', '5');
+        } else {
+            className1[i].style.display = "none";
+            document.getElementById("kimatu_katei").setAttribute('colspan', '3');
+          document.getElementById("kimatu_label").setAttribute('colspan', '2');
+          document.getElementById("kinben_katei").setAttribute('colspan', '3');
+          document.getElementById("kinben_label").setAttribute('colspan', '2');
+          document.getElementById("syaho_label").setAttribute('colspan', '4');
+          document.getElementById("syotoku_zei_label").setAttribute('colspan', '4');
+          document.getElementById("kyosai_label").setAttribute('colspan', '4'); 
+          document.getElementById("kozyo_top").setAttribute('colspan', '4');
+
+        }
+      }
+    }
+
+
+}
+</script>
